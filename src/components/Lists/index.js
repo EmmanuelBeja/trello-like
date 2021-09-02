@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import List from './List'
+import AddList from './AddList'
 import { Row } from 'reactstrap'
 import { ProgressCircular } from 'ui-neumorphism'
 
@@ -30,6 +31,7 @@ const Lists = () => {
           <List list={list} />
         </React.Fragment>
       ))}
+      {lists.length < 4 && <AddList />}
     </Row>
   )
 }
