@@ -12,8 +12,12 @@ import './App.scss'
 const App = () => {
   return (
     <Provider store={store}>
-      <Container className="app-container">
-        <Header />
+      <Header />
+      <Container
+        fluid={true}
+        className="app-container px-5 py-5"
+        style={{ backgroundImage: `url(/background/bg-${Math.floor(Math.random() * 2 + 1)}.jpeg)` }}
+      >
         <Lists />
       </Container>
       <ToastContainer />

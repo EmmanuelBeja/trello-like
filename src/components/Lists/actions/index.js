@@ -11,7 +11,9 @@ const getLists = () => {
     dispatch(request(null, types.GET_LISTS_REQUEST))
     listsService.getLists().then(
       (res) => {
-        dispatch(success(res.data, types.GET_LISTS_SUCCESS))
+        setTimeout(() => {
+          dispatch(success(res.data, types.GET_LISTS_SUCCESS))
+        }, 1200)
       },
       (error) => {
         dispatch(failure(error, types.GET_LISTS_FAILED))
