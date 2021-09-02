@@ -37,7 +37,7 @@ const Content = ({ item, listId }) => {
   const handleDelete = () => dispatch(listsActions.handleDeleteItem(item.id, listId))
 
   return (
-    <Row>
+    <Row draggable="true" className="card-item" id={item.id}>
       <Col lg="8" md="8" sm="12" xs="12">
         {item.name}
       </Col>

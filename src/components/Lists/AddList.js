@@ -21,7 +21,7 @@ const AddList = () => {
   }
 
   return (
-    <Col lg="3" md="3" sm="12" xs="12" className="lists">
+    <Col lg="3" md="3" sm="12" xs="12">
       <Card className="card px-2 py-2" elevation={4}>
         <Button type="button" onClick={() => setShowModal(true)}>
           Add New List

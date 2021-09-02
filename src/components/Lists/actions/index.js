@@ -117,6 +117,22 @@ const handleDeleteItem = (itemId, listId) => {
   }
 }
 
+const handleDragandDrop = (itemParentId, itemId, newHostId) => {
+  return (dispatch) => {
+    dispatch(request(null, types.DRAG_DROP_ITEM_REQUEST))
+    listsService.handleDragandDrop(itemParentId, itemId, newHostId).then(
+      (res) => {
+        setTimeout(() => {
+          dispatch(success(res.data, types.DRAG_DROP_ITEM_SUCCESS))
+        }, 1200)
+      },
+      (error) => {
+        dispatch(failure(error, types.DRAG_DROP_ITEM_FAILED))
+      }
+    )
+  }
+}
+
 export const listsActions = {
   getLists,
   handleAddList,
@@ -125,4 +141,5 @@ export const listsActions = {
   handleAddItem,
   handleEditItem,
   handleDeleteItem,
+  handleDragandDrop,
 }

@@ -38,3 +38,17 @@
     width: 300px;
   }
 }
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+
+#board .lists.over .card {
+  border: dashed 1px #555;
+  background-color: whitesmoke;
+}
