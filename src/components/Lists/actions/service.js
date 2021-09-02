@@ -1,45 +1,17 @@
-const getLists = () => {
-  if (localStorage.getItem('trello-db') === null) {
+const db = () => {
+  if (localStorage.getItem('trello-db') === null || !localStorage.getItem('trello-db')) {
     // create mock db
-    localStorage.setItem(
-      'trello-db',
-      JSON.stringify({
-        data: [
-          {
-            id: 1,
-            name: 'To Do',
-            items: [
-              {
-                id: 1,
-                name: 'Source seafood',
-              },
-              {
-                id: 2,
-                name: 'Staffing schedule',
-              },
-            ],
-          },
-          {
-            id: 2,
-            name: 'In Progress',
-            items: [],
-          },
-          {
-            id: 3,
-            name: 'Done',
-            items: [],
-          },
-        ],
-      })
-    )
+    localStorage.setItem('trello-db', JSON.stringify({ data: [] }))
+    return { data: [] }
   }
 
-  const lists = JSON.parse(localStorage.getItem('trello-db'))
-  return Promise.resolve(lists)
+  return JSON.parse(localStorage.getItem('trello-db'))
 }
 
+const getLists = () => Promise.resolve(db())
+
 const handleAddList = (value) => {
-  const lists = JSON.parse(localStorage.getItem('trello-db'))
+  const lists = db()
   const listsUpdated = lists.data
   listsUpdated.push({
     id: listsUpdated.length + 1,
@@ -53,7 +25,7 @@ const handleAddList = (value) => {
 }
 
 const handleEditList = (listId, value) => {
-  const lists = JSON.parse(localStorage.getItem('trello-db'))
+  const lists = db()
   const listsUpdated = []
 
   lists.data.map((list, index) => {
@@ -74,7 +46,7 @@ const handleEditList = (listId, value) => {
 }
 
 const handleDeleteList = (listId) => {
-  const lists = JSON.parse(localStorage.getItem('trello-db'))
+  const lists = db()
   const listsUpdated = lists.data.filter((item) => item.id !== listId)
 
   localStorage.setItem('trello-db', JSON.stringify({ data: listsUpdated }))
@@ -83,7 +55,7 @@ const handleDeleteList = (listId) => {
 }
 
 const handleAddItem = (listId, name) => {
-  const lists = JSON.parse(localStorage.getItem('trello-db'))
+  const lists = db()
   const listsUpdated = []
 
   lists.data.map((list, index) => {
@@ -110,7 +82,7 @@ const handleAddItem = (listId, name) => {
 }
 
 const handleEditItem = (itemId, listId, value) => {
-  const lists = JSON.parse(localStorage.getItem('trello-db'))
+  const lists = db()
   const listsUpdated = []
 
   lists.data.map((list, index) => {
@@ -143,7 +115,7 @@ const handleEditItem = (itemId, listId, value) => {
 }
 
 const handleDeleteItem = (itemId, listId) => {
-  const lists = JSON.parse(localStorage.getItem('trello-db'))
+  const lists = db()
   const listsUpdated = []
 
   lists.data.map((list, index) => {
@@ -165,6 +137,47 @@ const handleDeleteItem = (itemId, listId) => {
   return Promise.resolve({ data: listsUpdated })
 }
 
+const handleDragandDrop = (itemParentId, itemId, newHostId) => {
+  const lists = db()
+  const listsUpdated = []
+
+  const targetListItems = lists.data.filter((item) => Number(item.id) === Number(itemParentId))[0]
+  const targetItem = targetListItems.items.filter((item) => Number(item.id) === Number(itemId))[0]
+
+  lists.data.map((list, index) => {
+    if (Number(list.id) === Number(newHostId)) {
+      // add item to new host
+      const items = list.items
+      items.push({
+        id: items.length + 1,
+        name: targetItem.name,
+      })
+
+      listsUpdated.push({
+        id: list.id,
+        name: list.name,
+        items: items,
+      })
+    } else if (Number(list.id) === Number(itemParentId)) {
+      // remove item from parent/old host
+      const items = list.items
+      const updatedItems = items.filter((item) => Number(item.id) !== Number(itemId))
+
+      listsUpdated.push({
+        id: list.id,
+        name: list.name,
+        items: updatedItems,
+      })
+    } else {
+      listsUpdated.push(list)
+    }
+  })
+
+  localStorage.setItem('trello-db', JSON.stringify({ data: listsUpdated }))
+
+  return Promise.resolve({ data: listsUpdated })
+}
+
 export const listsService = {
   getLists,
   handleAddList,
@@ -173,4 +186,5 @@ export const listsService = {
   handleAddItem,
   handleEditItem,
   handleDeleteItem,
+  handleDragandDrop,
 }

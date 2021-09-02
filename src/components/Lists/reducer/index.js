@@ -7,6 +7,24 @@ const initialState = {
 
 const searchReducer = (state = initialState, action) => {
   switch (action.type) {
+    case types.DRAG_DROP_ITEM_REQUEST:
+      return {
+        ...state,
+        lists: [],
+        loading: true,
+      }
+    case types.DRAG_DROP_ITEM_SUCCESS:
+      return {
+        ...state,
+        lists: action.data,
+        loading: false,
+      }
+    case types.DRAG_DROP_ITEM_FAILED:
+      return {
+        ...state,
+        loading: false,
+      }
+
     case types.ADD_LIST_REQUEST:
       return {
         ...state,

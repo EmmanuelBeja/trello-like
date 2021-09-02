@@ -36,7 +36,7 @@ const List = ({ list }) => {
   }
 
   return (
-    <Col lg="3" md="3" sm="12" xs="12" className="lists">
+    <Col lg="3" md="3" sm="12" xs="12" className="lists" id={list.id}>
       <Card className="card px-2 pt-2 pb-5" elevation={4}>
         <Row className="lists-header">
           <Col lg="8" md="8" sm="12" xs="12">
@@ -55,11 +55,13 @@ const List = ({ list }) => {
             />
           </Col>
         </Row>
-        {list.items.map((item, index) => (
-          <React.Fragment key={index}>
-            <CardItem item={item} listId={list.id} />
-          </React.Fragment>
-        ))}
+        <div className="list-content">
+          {list.items.map((item, index) => (
+            <React.Fragment key={index}>
+              <CardItem item={item} listId={list.id} />
+            </React.Fragment>
+          ))}
+        </div>
         <br />
         <Button onClick={() => setShowAddItemModal(true)}>Add Activity</Button>
       </Card>
