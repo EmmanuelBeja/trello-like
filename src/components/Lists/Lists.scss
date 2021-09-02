@@ -17,4 +17,24 @@
       }
     }
   }
+
+  &-header {
+    &__actions {
+      font-size: 12px;
+
+      .icon-edit {
+        color: #2196f3;
+      }
+
+      .icon-delete {
+        color: #e91e63;
+      }
+    }
+  }
+}
+
+.dialog {
+  &-card {
+    width: 300px;
+  }
 }
