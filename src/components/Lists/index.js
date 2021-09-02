@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import List from './List'
 import { Row } from 'reactstrap'
+import { ProgressCircular } from 'ui-neumorphism'
+
 import { listsActions } from './actions'
+import './Lists.scss'
 
 const Lists = () => {
   const dispatch = useDispatch()
@@ -20,8 +23,8 @@ const Lists = () => {
   }, [listsData])
 
   return (
-    <Row>
-      {loading && <>Loading...</>}
+    <Row className="lists-container">
+      {loading && <ProgressCircular indeterminate color="var(--primary)" />}
       {lists.map((list, index) => (
         <React.Fragment key={index}>
           <List list={list} />
